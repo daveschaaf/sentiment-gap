@@ -1,0 +1,18 @@
+name: sentiment-gap
+channels:
+  - conda-forge
+  - nodefaults
+dependencies:
+  - python=3.10
+  - pandas
+  - numpy
+  - scikit-learn
+  - gensim
+  - nltk
+  - spacy
+  - streamlit
+  - plotly
+  - pytest
+  - pip
+  - pip:
+    - spacy-lookups-data
