@@ -11,6 +11,7 @@ dependencies:
   - nltk
   - streamlit
   - plotly
+  - pytest
   - pip
   - pip:
     # Any packages not available via conda-forge
