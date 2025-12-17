@@ -1,9 +1,9 @@
 name: sentiment-gap
 channels:
   - conda-forge
-  - defaults
+  - nodefaults
 dependencies:
-  - python=3.10 
+  - python=3.10
   - pandas
   - numpy
   - scikit-learn
@@ -13,8 +13,3 @@ dependencies:
   - plotly
   - pytest
   - pip
-  - pip:
-    # Any packages not available via conda-forge
-    # e.g., a specific Hugging Face model library if you upgrade later
-    # - transformers 
-    [] # Keep empty if all packages are in conda-forge

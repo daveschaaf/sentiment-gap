@@ -11,6 +11,3 @@ conda install -c conda-forge pytest
 ```
 python -m nltk.downloader punkt stopwords wordnet
 ```
-
-
-
