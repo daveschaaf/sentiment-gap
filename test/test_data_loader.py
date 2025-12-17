@@ -15,9 +15,13 @@ def test_load_raw_jsonl():
     # assert len(df) == 494121
 def test_process_reviews():
     processed_file = "data/processed/test_health_and_personal_care.csv"
-    df = process_reviews(processed_file, 10)
-    assert len(df) == 10
+    df = process_reviews(processed_file, 100)
+    assert len(df) == 100
     assert 'images'not in df.columns
+    assert df['text'].isnull().sum() == 0
+    assert df['rating'].isnull().sum() == 0
+    assert df['helpful_vote'].isnull().sum() == 0
+    assert df['title'].isnull().sum() == 0
     assert os.path.exists(processed_file)
     os.remove(processed_file)
 
