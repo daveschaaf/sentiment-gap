@@ -10,8 +10,6 @@ def test_load_raw():
     for column in expected_columns:
         assert column in df_columns
 
-    # df = load_reviews(REVIEWS_RAW, limit = 500000)
-    # assert len(df) == 494121
 def test_process_reviews():
     processed_file = "data/processed/test_health_and_personal_care.csv"
     df = process_reviews(health_reviews, 100)

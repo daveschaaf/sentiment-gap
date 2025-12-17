@@ -9,7 +9,10 @@ dependencies:
   - scikit-learn
   - gensim
   - nltk
+  - spacy
   - streamlit
   - plotly
   - pytest
   - pip
+  - pip:
+    - spacy-lookups-data
