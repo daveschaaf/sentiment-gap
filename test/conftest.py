@@ -1,6 +1,5 @@
 import pytest
 import pandas as pd
-import spacy
 from src.nlp_utils import TextProcessor
 
 @pytest.fixture(scope="session")

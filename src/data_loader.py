@@ -2,13 +2,13 @@ import pandas as pd
 import numpy as np
 from pathlib import Path
 
-def load_raw(file_name, limit=9999999):
-    file_path = Path("data", 'raw', file_name)
+def load_raw(file_name, limit=9999999, base_dir="."):
+    file_path = Path(base_dir, "data", 'raw', file_name)
     df = pd.read_json(file_path, lines=True, compression="gzip", nrows=limit)
     return pd.DataFrame(df)
 
-def process_reviews(file_name, limit):
-    df: pd.DataFrame = load_raw(file_name, limit=limit)
+def process_reviews(file_name, limit, base_dir="."):
+    df: pd.DataFrame = load_raw(file_name, limit=limit, base_dir=base_dir)
 
     # White list columns and set data types
     data_type_map = {
@@ -34,7 +34,7 @@ def process_reviews(file_name, limit):
     df['title'] = df['title'].fillna('No Title')
     df['helpful_vote'] = df['helpful_vote'].fillna(0)
 
-    raw_meta_df = load_raw(f"meta_{file_name}")
+    raw_meta_df = load_raw(f"meta_{file_name}", base_dir=base_dir)
     meta_df = clean_metadata(raw_meta_df) 
     # Join with meta file
     df = df.merge(meta_df[['parent_asin', "product_title", "description", "features", 'product_listing']], on='parent_asin', how= 'left' )
