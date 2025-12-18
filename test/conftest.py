@@ -1,5 +1,15 @@
 import pytest
 import pandas as pd
+import spacy
+from src.nlp_utils import TextProcessor
+
+@pytest.fixture(scope="session")
+def text_processor():
+    """
+    Loads the SpaCy model via TextProcessor class once for the entire test session.
+    """
+    print("\n### Loading Spacy model... ###")
+    return TextProcessor()
 
 @pytest.fixture
 def sample_meta_df():
