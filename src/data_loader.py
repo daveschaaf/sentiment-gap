@@ -39,8 +39,6 @@ def process_reviews(file_name, limit):
     # Join with meta file
     df = df.merge(meta_df[['parent_asin', "product_title", "description", "features", 'product_listing']], on='parent_asin', how= 'left' )
 
-    processed_file_path = Path('data', 'processed', file_name)
-    df.to_csv(processed_file_path)
     return df
 
 def clean_metadata(meta_df):
@@ -67,7 +65,11 @@ def clean_metadata(meta_df):
     meta_df['title'].fillna('')
     meta_df['features'].fillna('')
 
-    meta_df['product_listing'] = f"""{meta_df['title']} {meta_df['description']} {meta_df['features']}""".strip()
+    meta_df['product_listing'] = (
+        meta_df['title'] + " " +
+        meta_df['description'] + " " +
+        meta_df['features']
+    ).str.strip()
 
     meta_df = meta_df.rename(columns={'title': 'product_title'})
 

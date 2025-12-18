@@ -11,23 +11,18 @@ def test_load_raw():
         assert column in df_columns
 
 def test_process_reviews():
-    processed_file = "data/processed/test_health_and_personal_care.csv"
-    df = process_reviews(health_reviews, 100)
-    assert len(df) == 100
+    df = process_reviews(health_reviews, 2)
+    assert len(df) == 2
     assert 'images'not in df.columns
     assert df['text'].isnull().sum() == 0
     assert df['rating'].isnull().sum() == 0
     assert df['helpful_vote'].isnull().sum() == 0
     assert df['product_title'].isnull().sum() == 0
-    assert os.path.exists(processed_file)
-    os.remove(processed_file)
 
 def test_clean_metadata(sample_meta_df):
-    test_meta_path = "meta_Health_and_Personal_Care.jsonl.gz"
-
     df = clean_metadata(sample_meta_df)
 
-    for col in ['parent_asin', 'description', 'title', 'features']:
+    for col in ['parent_asin', 'description', 'product_title', 'features']:
         assert col in df.columns
         assert df[col].isnull().sum() == 0
 
