@@ -15,4 +15,5 @@ dependencies:
   - pytest
   - pip
   - pip:
+    - textblob
     - spacy-lookups-data
