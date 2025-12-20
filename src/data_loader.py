@@ -60,3 +60,13 @@ def clean_metadata(meta_df):
     meta_df = meta_df.rename(columns={'title': 'product_title'})
 
     return pd.DataFrame(meta_df)
+
+def add_metadata_word_count(df):
+    listing_word_count = df.loc[:, 'product_listing'].apply(lambda x: len(x.split()))
+    df.loc[:, 'listing_word_count'] = listing_word_count
+    review_word_count = df.loc[:, ['title', 'text']].apply(
+        lambda x: len((str(x['title']) + " " + str(x['text'])).split()),
+        axis=1
+    )
+    df.loc[:, 'review_word_count'] = review_word_count
+    return df

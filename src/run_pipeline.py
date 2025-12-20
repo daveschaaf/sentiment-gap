@@ -1,4 +1,4 @@
-from src.data_loader import process_reviews
+from src.data_loader import process_reviews, add_metadata_word_count
 from src.nlp_utils import TextProcessor
 from pathlib import Path
 
@@ -12,6 +12,8 @@ def data_pipeline(file_name, base_dir="."):
     print("- Cleaning reviews...")
     df.loc[:, 'clean_review'] = processor.nlp_column(df, 'text')
     
+    df = add_metadata_word_count(df) 
+
     cleaned_file_name = file_name.lower().replace(".jsonl.gz", "")
     output_path = Path(base_dir, "data", "processed", f"{cleaned_file_name}.pkl")
     df.to_pickle(output_path)

@@ -42,7 +42,9 @@ def test_data_pipeline(tmp_path):
     saved_pickle = processed_dir / "health_test.pkl"
     assert os.path.exists(saved_pickle)
     reload = pd.read_pickle(saved_pickle)
-    assert reload.loc[ 0, 'clean_review'] == "mint cool"
-    assert reload.loc[ 0, 'clean_listing'] == "minty fresh good mint cool effect"
+    assert reload.loc[0, 'clean_review'] == "mint cool"
+    assert reload.loc[0, 'clean_listing'] == "minty fresh good mint cool effect"
+    assert reload.loc[0, 'listing_word_count'] == 7
+    assert reload.loc[0, 'review_word_count'] == 5
 
 
