@@ -12,6 +12,7 @@ def data_pipeline(file_name, base_dir="."):
     print("- Cleaning reviews...")
     df.loc[:, 'clean_review'] = processor.nlp_column(df, 'text')
     
+    print("Appending word count...")
     df = add_metadata_word_count(df) 
 
     cleaned_file_name = file_name.lower().replace(".jsonl.gz", "")
