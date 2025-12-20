@@ -2,9 +2,9 @@ from src.data_loader import process_reviews, add_metadata_word_count
 from src.nlp_utils import TextProcessor
 from pathlib import Path
 
-def data_pipeline(file_name, base_dir="."):
+def data_pipeline(file_name, limit=500000, base_dir="."):
     print(f"### Starting data pipeline for {file_name}")
-    df = process_reviews(file_name, limit=500000, base_dir=base_dir)
+    df = process_reviews(file_name, limit=limit, base_dir=base_dir)
     processor = TextProcessor()
 
     print("- Cleaning listings...")
@@ -23,4 +23,4 @@ def data_pipeline(file_name, base_dir="."):
 
 
 if __name__ == "__main__":
-    data_pipeline('Health_and_Personal_Care.jsonl.gz')
+    data_pipeline('Health_and_Personal_Care.jsonl.gz', limit = 10)

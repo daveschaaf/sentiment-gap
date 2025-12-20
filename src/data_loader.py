@@ -29,10 +29,12 @@ def process_reviews(file_name, limit, base_dir="."):
     df = df.drop(columns=['images'])
 
     raw_meta_df = load_raw(f"meta_{file_name}", base_dir=base_dir)
-    meta_df = clean_metadata(raw_meta_df) 
+    meta_df = clean_metadata(raw_meta_df)
     # Join with meta file
     df = df.merge(meta_df[['description', 'product_title', 'product_listing', 'features',
-                           'average_rating','rating_number', 'parent_asin']], on='parent_asin', how= 'left' )
+                           'average_rating','rating_number', 'parent_asin', 'listing_image_count',
+                           'listing_video_count', 'listing_media_count']],
+                  on='parent_asin', how= 'left' )
 
     return df
 
@@ -49,15 +51,12 @@ def clean_metadata(meta_df):
     # clean HTMl of tags
     meta_df['description'] = meta_df['description'].replace(r'<[^>]*>', '', regex=True)
     
-    image_count = meta_df.loc[:, 'images'].str.len()
-    video_count = meta_df.loc[:, 'videos'].str.len()
-    meta_df.loc[:, 'listing_image_count'] = image_count
-    meta_df.loc[:, 'listing_video_count'] = video_count
-    meta_df.loc[:, 'listing_media_count'] = image_count + video_count
+    image_count = meta_df['images'].str.len().fillna(0).astype(int)
+    video_count = meta_df['videos'].str.len().fillna(0).astype(int)
+    meta_df['listing_image_count'] = image_count
+    meta_df['listing_video_count'] = video_count
+    meta_df['listing_media_count'] = (image_count + video_count)
 
-    meta_df = meta_df.drop(columns=['images', 'videos'])
-
-    # Fill NA values with blank
     meta_df['description'].fillna('')
     meta_df['title'].fillna('')
     meta_df['features'].fillna('')
@@ -69,6 +68,8 @@ def clean_metadata(meta_df):
     ).str.strip()
 
     meta_df = meta_df.rename(columns={'title': 'product_title'})
+
+    meta_df = meta_df.drop(columns=['images', 'videos'])
 
     return pd.DataFrame(meta_df)
 

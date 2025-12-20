@@ -49,5 +49,8 @@ def test_data_pipeline(tmp_path):
     assert reload.loc[0, 'clean_listing'] == "minty fresh good mint cool effect"
     assert reload.loc[0, 'listing_word_count'] == 7
     assert reload.loc[0, 'review_word_count'] == 5
+    assert reload.loc[0, 'listing_image_count'] == 1
+    assert reload.loc[0, 'listing_video_count'] == 1
+    assert reload.loc[0, 'listing_media_count'] == 2
 
 
