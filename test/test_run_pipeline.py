@@ -22,7 +22,8 @@ def test_data_pipeline(tmp_path):
         'asin': ['B001-A'],
         'user_id': ['USER123'],
         'helpful_vote': [0],
-        'verified_purchase': [True]
+        'verified_purchase': [True],
+        'images': [[{'large': 'large_image location'},{"small": "small image location"}]]
     })
     df_mock.to_json(raw_dir / test_file, orient='records',lines=True, compression='gzip')
 
@@ -33,7 +34,9 @@ def test_data_pipeline(tmp_path):
         'description': [['Best mints ever.']],
         'features': [['Cooling effect']],
         'average_rating': '3.7',
-        'rating_number': "739"
+        'rating_number': "739",
+        'images': [[{"large": "large_image_location", "small": "small_image_location"}]],
+        'videos': [[{"title": 'video_title', "url": 'video_url'}]]
     })
     meta_mock.to_json(raw_dir / meta_file, orient='records', lines=True, compression='gzip')
 

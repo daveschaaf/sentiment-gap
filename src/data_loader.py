@@ -24,6 +24,9 @@ def process_reviews(file_name, limit, base_dir="."):
     # Fill tile and rating
     df['title'] = df['title'].fillna('No Title')
     df['helpful_vote'] = df['helpful_vote'].fillna(0)
+    
+    df['review_image_count'] = df.loc[:, 'images'].str.len()
+    df = df.drop(columns=['images'])
 
     raw_meta_df = load_raw(f"meta_{file_name}", base_dir=base_dir)
     meta_df = clean_metadata(raw_meta_df) 
@@ -45,6 +48,14 @@ def clean_metadata(meta_df):
 
     # clean HTMl of tags
     meta_df['description'] = meta_df['description'].replace(r'<[^>]*>', '', regex=True)
+    
+    image_count = meta_df.loc[:, 'images'].str.len()
+    video_count = meta_df.loc[:, 'videos'].str.len()
+    meta_df.loc[:, 'listing_image_count'] = image_count
+    meta_df.loc[:, 'listing_video_count'] = video_count
+    meta_df.loc[:, 'listing_media_count'] = image_count + video_count
+
+    meta_df = meta_df.drop(columns=['images', 'videos'])
 
     # Fill NA values with blank
     meta_df['description'].fillna('')

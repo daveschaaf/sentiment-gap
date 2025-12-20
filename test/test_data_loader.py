@@ -15,6 +15,7 @@ def test_process_reviews():
     df = process_reviews(health_reviews, 2)
     assert len(df) == 2
     assert 'images'not in df.columns
+    assert df.loc[0, 'review_image_count'] == 0
     assert df['text'].isnull().sum() == 0
     assert df['rating'].isnull().sum() == 0
     assert df['helpful_vote'].isnull().sum() == 0
@@ -24,9 +25,12 @@ def test_clean_metadata(sample_meta_df):
     df = clean_metadata(sample_meta_df)
 
     for col in ['parent_asin', 'description', 'product_title', 'features',
-                'rating_number', 'average_rating']:
+                'rating_number', 'average_rating', ]:
         assert col in df.columns
         assert df[col].isnull().sum() == 0
+    assert df.loc[0, 'listing_image_count'] == 1
+    assert df.loc[0, 'listing_video_count'] == 2
+    assert df.loc[0, 'listing_media_count'] == 3
 
 def test_metadata_word_count():
     df = pd.DataFrame(
@@ -42,6 +46,7 @@ def test_metadata_word_count():
 def test_metadata_append_image_count():
     pass
     """It add the image count of the review"""
+    
     #assert df['review_image_count'] > 0
     """It adds the image count of  the product listing"""
     #assert df['listing_image_count'] > 0

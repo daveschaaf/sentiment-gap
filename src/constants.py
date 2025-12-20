@@ -8,16 +8,19 @@ REVIEW_DATA_TYPES = {
     'parent_asin': 'category',
     'user_id': 'string',
     'helpful_vote': 'int32', 
-    'verified_purchase': 'bool'
+    'verified_purchase': 'bool',
+    'images': 'object'
 }
 
 META_DATA_TYPES = {
     'parent_asin': 'category',
     'title': 'string',
     'description': 'string', 
-    'features': 'string',
+    'features': 'object',
     'average_rating': 'float32',
-    'rating_number': 'int32'
+    'rating_number': 'int32',
+    'images': 'object',
+    'videos': 'object'
 }
 
 

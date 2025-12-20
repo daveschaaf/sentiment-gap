@@ -19,7 +19,9 @@ def sample_meta_df():
         'title': ['', "Some Product Title" ],
         'features': [['feature1', 'feature2'],['better features', 'worse feature']],
         'average_rating': '4.5',
-        'rating_number': '22'
+        'rating_number': '22',
+        'images': [[{'image2': 'image2_url'}],[{'image1': 'image1_url'}]],
+        'videos': [[{'video3': 'video3_url'},{'video2': 'video2_url'}],[{'video1': 'video1_url'}]]
 
     })
 
@@ -29,5 +31,6 @@ def sample_review_df():
     return pd.DataFrame({
         'parent_asin': ['B001', 'B001', 'B002'],
         'text': ['Too strong!', 'Love the kick', 'Didnt work'],
-        'rating': [1, 5, 2]
+        'rating': [1, 5, 2],
+        'images': [{'image2': 'image2_url'},{'image1': 'image1_url'}]
     })
