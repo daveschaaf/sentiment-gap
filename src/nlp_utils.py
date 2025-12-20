@@ -1,4 +1,5 @@
 import spacy
+from src.constants import MIN_CHAR_LENGTH
 
 class TextProcessor():
 
@@ -12,7 +13,7 @@ class TextProcessor():
         3. Filters for Nouns, Adjectives, and Verbs
         """
         return [
-            token.lemma_ for token in doc if not token.is_stop and token.is_alpha and len(token.text) > 2
+            token.lemma_ for token in doc if not token.is_stop and token.is_alpha and len(token.text) >= MIN_CHAR_LENGTH
         ]
 
     def nlp_text(self, text):

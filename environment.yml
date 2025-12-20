@@ -13,7 +13,10 @@ dependencies:
   - streamlit
   - plotly
   - pytest
+  - matplotlib
+  - seaborn
   - pip
+  - nbformat>=4.2.0
   - pip:
     - textblob
     - spacy-lookups-data

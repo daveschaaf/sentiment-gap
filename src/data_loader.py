@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 from pathlib import Path
+from src.constants import REVIEW_DATA_TYPES, META_DATA_TYPES
 
 def load_raw(file_name, limit=9999999, base_dir="."):
     file_path = Path(base_dir, "data", 'raw', file_name)
@@ -11,18 +12,8 @@ def process_reviews(file_name, limit, base_dir="."):
     df: pd.DataFrame = load_raw(file_name, limit=limit, base_dir=base_dir)
 
     # White list columns and set data types
-    data_type_map = {
-        'rating': 'float32',
-        'title': 'string',
-        'text': 'string',
-        'asin': 'category',
-        'parent_asin': 'category',
-        'user_id': 'string',
-        'helpful_vote': 'int32', 
-        'verified_purchase': 'bool'
-    }
-    df = df.loc[:, list(data_type_map.keys())]
-    df = df.astype({k: v for k, v in data_type_map.items()})
+    df = df.loc[:, list(REVIEW_DATA_TYPES.keys())]
+    df = df.astype({k: v for k, v in REVIEW_DATA_TYPES.items()})
     if 'timestamp' in df.columns:
         df['timestamp'] = pd.to_datetime(df['timestamp'], unit='ms')
 
@@ -43,19 +34,13 @@ def process_reviews(file_name, limit, base_dir="."):
 
 def clean_metadata(meta_df):
 
-    meta_data_types = {
-        'parent_asin': 'category',
-        'title': 'string',
-        'description': 'string', 
-        'features': 'string'
-    }
     meta_df = meta_df.dropna(subset=['parent_asin'])
-    meta_df = meta_df.loc[:, list(meta_data_types.keys())]
+    meta_df = meta_df.loc[:, list(META_DATA_TYPES.keys())]
 
     # convert lists to string
     for col in ['description', 'features']:
         meta_df[col] = meta_df[col].apply(lambda c: " ".join(c) if isinstance(c, list) else c)
-    meta_df = meta_df.astype({k: v for k, v in meta_data_types.items()})
+    meta_df = meta_df.astype({k: v for k, v in META_DATA_TYPES.items()})
 
     # clean HTMl of tags
     meta_df['description'] = meta_df['description'].replace(r'<[^>]*>', '', regex=True)
