@@ -1,5 +1,6 @@
 import pytest
 import pandas as pd
+from src.nlp_utils import TextProcessor
 
 @pytest.fixture
 def sample_texts():
@@ -37,3 +38,59 @@ def test_nlp_column(text_processor, sample_data_frame):
     result = text_processor.nlp_column(sample_data_frame, 'text')
     assert result[0] == sample_data_frame.loc[0, 'expectation']
     assert result[1] == sample_data_frame.loc[1,'expectation']
+
+
+def mock_get_sentiment(text):
+    return (0.5, 0.25)
+
+def test_analyze_sentiment(monkeypatch):
+
+    df = pd.DataFrame({
+        "clean_review": ["great product", "terrible experience"],
+        "clean_listing": ["high quality item", "low quality item"]
+    })
+    processor = TextProcessor()
+    monkeypatch.setattr(
+        "src.nlp_utils.get_sentiment",
+        mock_get_sentiment
+    )
+    result = processor.analyze_sentiment(df)
+
+    """new columns do not exist in original"""
+    assert "review_pol" not in df.columns
+    assert "review_sub" not in df.columns
+    assert "listing_pol" not in df.columns
+    assert "listing_sub" not in df.columns
+
+    """new columns exist"""
+    expected_cols = {
+        "review_pol", "review_sub",
+        "listing_pol", "listing_sub"
+    }
+    assert expected_cols.issubset(result.columns)
+
+    """new values exist"""
+    
+    assert (result["review_pol"] == 0.5).all()
+    assert (result["review_sub"] == 0.25).all()
+    assert (result["listing_pol"] == 0.5).all()
+    assert (result["listing_sub"] == 0.25).all()
+    
+    """preserves the shape"""
+    assert len(result) == len(df)
+
+def test_add_metadata_word_count():
+    df = pd.DataFrame({
+        "product_listing": ["This is a product", None, "Another listing"],
+        "title": ["Great", None, "Not bad"],
+        "text": ["Amazing experience", "Needs improvement", None]
+    })
+    processor = TextProcessor()
+    result = processor.add_metadata_word_count(df)
+
+    assert 'listing_word_count' not in df.columns
+    assert 'review_word_count' not in df.columns
+    
+    assert list(result['listing_word_count']) == [4,0,2]
+    assert list(result['review_word_count']) == [3,2,2]
+

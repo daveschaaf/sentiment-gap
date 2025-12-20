@@ -1,12 +1,14 @@
+import pandas as pd
 import spacy
 from src.constants import MIN_CHAR_LENGTH
 from tqdm import tqdm
+from src.analyze_sentiment import get_sentiment
 
 
 class TextProcessor():
 
     def __init__(self):
-        self.nlp = spacy.load('en_core_web_sm')
+      self.nlp = spacy.load('en_core_web_sm')
 
     def filter_tokens(self, doc):
         """
@@ -43,3 +45,27 @@ class TextProcessor():
             " ".join(self.filter_tokens(doc))
             for doc in docs
         ]
+    
+    def analyze_sentiment(self, df):
+        df = df.copy()
+
+        review_scores = [
+            get_sentiment(text)
+            for text in tqdm( df['clean_review'], desc="Review sentiment" )
+        ]
+        df[['review_pol', 'review_sub']] = pd.DataFrame(review_scores, index=df.index)
+        listing_scores = [
+            get_sentiment(text)
+            for text in tqdm(df['clean_listing'], desc="Listing sentiment")
+        ]
+        df[['listing_pol', 'listing_sub']] = pd.DataFrame(listing_scores, index=df.index)
+        return df
+
+    def add_metadata_word_count(self, df):
+        df = df.copy()
+
+        df['listing_word_count'] = df['product_listing'].fillna('').str.split().str.len()
+        combined_review = df['title'].fillna('') + " " + df['text'].fillna('')
+        df['review_word_count'] = combined_review.str.split().str.len()
+        
+        return df

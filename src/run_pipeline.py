@@ -7,20 +7,21 @@ def data_pipeline(file_name, limit=500000, base_dir="."):
     df = process_reviews(file_name, limit=limit, base_dir=base_dir)
     processor = TextProcessor()
 
-    print("- Cleaning listings...")
     df.loc[:, 'clean_listing'] = processor.nlp_column(df, 'product_listing')
-    print("- Cleaning reviews...")
     df.loc[:, 'clean_review'] = processor.nlp_column(df, 'text')
-    
-    print("Appending word count...")
-    df = add_metadata_word_count(df) 
+    df = processor.analyze_sentiment(df)
+    df = processor.add_metadata_word_count(df) 
 
     cleaned_file_name = file_name.lower().replace(".jsonl.gz", "")
     output_path = Path(base_dir, "data", "processed", f"{cleaned_file_name}.pkl")
     df.to_pickle(output_path)
     
     print(f"Successfully saved cleaned file to:\n{output_path}")
+    return df
+
 
 
 if __name__ == "__main__":
-    data_pipeline('Health_and_Personal_Care.jsonl.gz', limit = 10)
+    df = data_pipeline('Health_and_Personal_Care.jsonl.gz', limit = 10)
+
+    

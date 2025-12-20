@@ -57,9 +57,9 @@ def clean_metadata(meta_df):
     meta_df['listing_video_count'] = video_count
     meta_df['listing_media_count'] = (image_count + video_count)
 
-    meta_df['description'].fillna('')
-    meta_df['title'].fillna('')
-    meta_df['features'].fillna('')
+    meta_df['description'] = meta_df['description'].fillna('')
+    meta_df['title'] = meta_df['title'].fillna('')
+    meta_df['features'] = meta_df['features'].fillna('')
 
     meta_df['product_listing'] = (
         meta_df['title'] + " " +
