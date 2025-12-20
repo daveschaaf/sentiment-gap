@@ -15,7 +15,9 @@ META_DATA_TYPES = {
     'parent_asin': 'category',
     'title': 'string',
     'description': 'string', 
-    'features': 'string'
+    'features': 'string',
+    'average_rating': 'float32',
+    'rating_number': 'int32'
 }
 
 

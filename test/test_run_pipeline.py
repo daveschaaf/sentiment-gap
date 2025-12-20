@@ -31,7 +31,9 @@ def test_data_pipeline(tmp_path):
         'parent_asin': ['B001'],
         'title': ['Minty Fresh'],
         'description': [['Best mints ever.']],
-        'features': [['Cooling effect']]
+        'features': [['Cooling effect']],
+        'average_rating': '3.7',
+        'rating_number': "739"
     })
     meta_mock.to_json(raw_dir / meta_file, orient='records', lines=True, compression='gzip')
 

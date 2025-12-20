@@ -28,7 +28,8 @@ def process_reviews(file_name, limit, base_dir="."):
     raw_meta_df = load_raw(f"meta_{file_name}", base_dir=base_dir)
     meta_df = clean_metadata(raw_meta_df) 
     # Join with meta file
-    df = df.merge(meta_df[['parent_asin', "product_title", "description", "features", 'product_listing']], on='parent_asin', how= 'left' )
+    df = df.merge(meta_df[['description', 'product_title', 'product_listing', 'features',
+                           'average_rating','rating_number', 'parent_asin']], on='parent_asin', how= 'left' )
 
     return df
 

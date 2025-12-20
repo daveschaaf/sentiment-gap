@@ -1,5 +1,7 @@
 import spacy
 from src.constants import MIN_CHAR_LENGTH
+from tqdm import tqdm
+
 
 class TextProcessor():
 
@@ -29,9 +31,15 @@ class TextProcessor():
         clean_tokens = self.filter_tokens(doc)
         return " ".join(clean_tokens)
 
-
     def nlp_column(self, df, column):
-        return [
-            " ".join(self.filter_tokens(doc)) for doc in self.nlp.pipe(df.loc[:, column].astype(str).str.lower(), batch_size=500)
-        ]
+        texts = df[column].astype(str).str.lower()
 
+        docs = self.nlp.pipe(
+            tqdm(texts, total=len(texts), desc="Processing listings"),
+            batch_size=500
+        )
+
+        return [
+            " ".join(self.filter_tokens(doc))
+            for doc in docs
+        ]

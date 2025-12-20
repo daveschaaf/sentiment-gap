@@ -17,7 +17,9 @@ def sample_meta_df():
         'parent_asin': ['asin1', 'asin2'],
         'description': ['test description', ['list', 'list description']],
         'title': ['', "Some Product Title" ],
-        'features': [['feature1', 'feature2'],['better features', 'worse feature']]
+        'features': [['feature1', 'feature2'],['better features', 'worse feature']],
+        'average_rating': '4.5',
+        'rating_number': '22'
 
     })
 

@@ -5,7 +5,8 @@ health_reviews = 'Health_and_Personal_Care.jsonl.gz'
 def test_load_raw():
     limit = 10
     df = load_raw(health_reviews, limit=limit)
-    expected_columns = ['rating', 'title', 'text', 'images', 'asin', 'parent_asin', 'user_id', 'timestamp', 'helpful_vote', 'verified_purchase']
+    expected_columns = ['rating', 'title', 'text', 'images', 'asin', 'parent_asin',
+                         'user_id', 'timestamp', 'helpful_vote', 'verified_purchase']
     df_columns = df.columns
     for column in expected_columns:
         assert column in df_columns
@@ -22,7 +23,8 @@ def test_process_reviews():
 def test_clean_metadata(sample_meta_df):
     df = clean_metadata(sample_meta_df)
 
-    for col in ['parent_asin', 'description', 'product_title', 'features']:
+    for col in ['parent_asin', 'description', 'product_title', 'features',
+                'rating_number', 'average_rating']:
         assert col in df.columns
         assert df[col].isnull().sum() == 0
 

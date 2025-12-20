@@ -4,7 +4,7 @@ from pathlib import Path
 
 def data_pipeline(file_name, base_dir="."):
     print(f"### Starting data pipeline for {file_name}")
-    df = process_reviews(file_name, limit=10000, base_dir=base_dir)
+    df = process_reviews(file_name, limit=500000, base_dir=base_dir)
     processor = TextProcessor()
 
     print("- Cleaning listings...")
@@ -17,7 +17,6 @@ def data_pipeline(file_name, base_dir="."):
     df.to_pickle(output_path)
     
     print(f"Successfully saved cleaned file to:\n{output_path}")
-    
 
 
 if __name__ == "__main__":
