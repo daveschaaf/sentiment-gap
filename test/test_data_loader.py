@@ -43,15 +43,6 @@ def test_metadata_word_count():
     """It adds the word count of the review"""
     assert df.loc[0, 'review_word_count'] == 4
 
-def test_metadata_append_image_count():
-    pass
-    """It add the image count of the review"""
-    
-    #assert df['review_image_count'] > 0
-    """It adds the image count of  the product listing"""
-    #assert df['listing_image_count'] > 0
-
-
 def test_product_listing(sample_meta_df):
     meta_df = clean_metadata(sample_meta_df)
     assert (meta_df['product_listing'].str.strip().str.len() < 10).sum() == 0
