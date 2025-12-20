@@ -1,7 +1,5 @@
 # Project sentiment-gap
-data/raw/
 data/processed/
-!data/raw/.gitkeep
 !data/processed/.gitkeep
 
 # Byte-compiled / optimized / DLL files
