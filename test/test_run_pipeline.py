@@ -1,6 +1,6 @@
 import pytest
 import pandas as pd
-from src.run_pipeline import data_pipeline
+from src.run_pipeline import load_and_preprocess
 import os
 
 
@@ -40,7 +40,7 @@ def test_data_pipeline(tmp_path):
     })
     meta_mock.to_json(raw_dir / meta_file, orient='records', lines=True, compression='gzip')
 
-    data_pipeline(test_file, base_dir=tmp_path)
+    load_and_preprocess(test_file, base_dir=tmp_path)
 
     saved_pickle = processed_dir / "health_test.pkl"
     assert os.path.exists(saved_pickle)

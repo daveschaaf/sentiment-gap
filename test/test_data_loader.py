@@ -1,4 +1,4 @@
-from src.data_loader import load_raw, process_reviews, clean_metadata, add_metadata_word_count
+from src.data_loader import load_raw, load_reviews, clean_metadata
 import pandas as pd
 
 health_reviews = 'Health_and_Personal_Care.jsonl.gz'
@@ -11,8 +11,8 @@ def test_load_raw():
     for column in expected_columns:
         assert column in df_columns
 
-def test_process_reviews():
-    df = process_reviews(health_reviews, 2)
+def test_load_reviews():
+    df = load_reviews(health_reviews, 2)
     assert len(df) == 2
     assert 'images'not in df.columns
     assert df.loc[0, 'review_image_count'] == 0
@@ -31,17 +31,6 @@ def test_clean_metadata(sample_meta_df):
     assert df.loc[0, 'listing_image_count'] == 1
     assert df.loc[0, 'listing_video_count'] == 2
     assert df.loc[0, 'listing_media_count'] == 3
-
-def test_metadata_word_count():
-    df = pd.DataFrame(
-        [['This product is made of sand.', 'I love sand!', 'SAND!']], 
-        columns=['product_listing', 'text', 'title']
-    )
-    df = add_metadata_word_count(df)
-    """It adds the word count of the description"""
-    assert df.loc[0, 'listing_word_count']== 6
-    """It adds the word count of the review"""
-    assert df.loc[0, 'review_word_count'] == 4
 
 def test_product_listing(sample_meta_df):
     meta_df = clean_metadata(sample_meta_df)

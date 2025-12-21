@@ -12,7 +12,6 @@ def test_aggregate_by_parent_asin():
     df['listing_pol'] = 0.1
     df['listing_sub'] = 0.2
     df['listing_word_count'] = 9
-    df['rating_count'] = 2
     rv1 = df.copy()
     rv2 = df.copy()
 
@@ -25,7 +24,6 @@ def test_aggregate_by_parent_asin():
     rv1['review_pol'] = 0.8
     rv1['review_sub'] = 0.8
     rv1['review_word_count'] = 9
-    rv1['rating_count'] = 1
     agg_rv1_df = aggregate_by_parent_asin(rv1, min_reviews=2)
 
     assert asin not in agg_rv1_df.index
@@ -42,7 +40,6 @@ def test_aggregate_by_parent_asin():
     rv2['review_word_count'] = 4
 
     combined_df = pd.concat([rv1, rv2], ignore_index=True)
-    combined_df['rating_count'] = 2
 
     agg_df = aggregate_by_parent_asin(combined_df, min_reviews=2)
     assert len(agg_df) == 1

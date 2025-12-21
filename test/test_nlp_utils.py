@@ -94,3 +94,15 @@ def test_add_metadata_word_count():
     assert list(result['listing_word_count']) == [4,0,2]
     assert list(result['review_word_count']) == [3,2,2]
 
+def test_mark_critical_reviews():
+    processor = TextProcessor()
+    
+    nice_df = pd.DataFrame()
+    nice_df['rating'] = [5]
+    result = processor.mark_critical_reviews(nice_df)
+    assert result.loc[0, 'is_critical'] == False
+    
+    crit_df = pd.DataFrame()
+    crit_df['rating'] = [3]
+    result = processor.mark_critical_reviews(crit_df)
+    assert result.loc[0, 'is_critical'] == True

@@ -8,7 +8,7 @@ def load_raw(file_name, limit=9999999, base_dir="."):
     df = pd.read_json(file_path, lines=True, compression="gzip", nrows=limit)
     return pd.DataFrame(df)
 
-def process_reviews(file_name, limit, base_dir="."):
+def load_reviews(file_name, limit, base_dir="."):
     df: pd.DataFrame = load_raw(file_name, limit=limit, base_dir=base_dir)
 
     # White list columns and set data types
@@ -73,9 +73,3 @@ def clean_metadata(meta_df):
 
     return pd.DataFrame(meta_df)
 
-def add_metadata_word_count(df):
-    df['listing_word_count'] = df['product_listing'].fillna('').str.split().str.len()
-    combined_review = df['title'].fillna('') + " " + df['text'].fillna('')
-    df['review_word_count'] = combined_review.str.split().str.len()
-    
-    return df
