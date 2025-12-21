@@ -15,7 +15,7 @@ def test_data_pipeline(tmp_path):
 
     test_file = "health_test.jsonl.gz"
     df_mock = pd.DataFrame({
-        'rating': [5.0],
+        'rating': [3.0],
         'title': ['Great'],
         'text': ['This mint is cooling.'],
         'parent_asin': ['B001'],
@@ -52,5 +52,6 @@ def test_data_pipeline(tmp_path):
     assert reload.loc[0, 'listing_image_count'] == 1
     assert reload.loc[0, 'listing_video_count'] == 1
     assert reload.loc[0, 'listing_media_count'] == 2
+    assert reload.loc[0, 'is_critical'] == True
 
 

@@ -11,7 +11,8 @@ def load_and_preprocess(file_name, limit=500000, base_dir="."):
     df.loc[:, 'clean_listing'] = processor.nlp_column(df, 'product_listing')
     df.loc[:, 'clean_review'] = processor.nlp_column(df, 'text')
     df = processor.analyze_sentiment(df)
-    df = processor.add_metadata_word_count(df) 
+    df = processor.add_metadata_word_count(df)
+    df = processor.mark_critical_reviews(df)
 
     cleaned_file_name = file_name.lower().replace(".jsonl.gz", "")
     output_path = Path(base_dir, "data", "processed", f"{cleaned_file_name}.pkl")
