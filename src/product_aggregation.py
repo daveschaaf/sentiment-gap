@@ -5,6 +5,7 @@ def aggregate_by_parent_asin(df, min_reviews = 5):
     agg_map['rating'] = ['mean', 'std', 'count']
     agg_map['review_pol'] = ['mean', 'std']
     agg_map['review_sub'] = ['mean', 'std']
+    agg_map['is_critical'] = ['mean']
     agg_map['review_word_count'] = ['mean', 'std']
     for col in ['product_title', 'product_listing', 'listing_media_count',
                 'listing_pol', 'listing_sub', 'listing_word_count']:

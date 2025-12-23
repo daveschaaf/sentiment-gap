@@ -24,6 +24,7 @@ def test_aggregate_by_parent_asin():
     rv1['review_pol'] = 0.8
     rv1['review_sub'] = 0.8
     rv1['review_word_count'] = 9
+    rv1['is_critical'] = False
     agg_rv1_df = aggregate_by_parent_asin(rv1, min_reviews=2)
 
     assert asin not in agg_rv1_df.index
@@ -38,6 +39,7 @@ def test_aggregate_by_parent_asin():
     rv2['review_pol'] = -0.5
     rv2['review_sub'] = 0.2
     rv2['review_word_count'] = 4
+    rv2['is_critical'] = True
 
     combined_df = pd.concat([rv1, rv2], ignore_index=True)
 
@@ -62,5 +64,4 @@ def test_aggregate_by_parent_asin():
     assert agg_df.loc[asin, "review_sub_std"] == pytest.approx(0.424, abs=1e-3)
     assert agg_df.loc[asin, 'review_word_count_mean'] == 6.5
     assert agg_df.loc[asin, 'review_word_count_std'] == pytest.approx(3.535, abs=1e-3)
-
 
